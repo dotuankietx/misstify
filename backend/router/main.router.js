@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 
 router.post("/addMusic", async (req, res) => {
   let { artist, title, duration, artwork, url } = req.body;
-  console.log(req.body)
+  console.log(req.body);
   let id = firebaseId();
   try {
     let result = await admin.firestore().collection("Musics").doc(id).create({
@@ -66,9 +66,10 @@ router.get("/filterSong", async (req, res) => {
 });
 
 router.delete("/deleteSong", async (req, res) => {
-  let { id } = req.body;
+  let { id } = req.query;
+  console.log(req);
   let result = await admin.firestore().collection("Musics").doc(id).delete();
-  res.send("Song deleted");
+  res.send("success");
 });
 
 module.exports = router;

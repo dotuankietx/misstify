@@ -35,9 +35,9 @@ const EditView = ({ params }) => {
   const [URL, setUrl] = useState(db.selectedSong.url);
   const [Title, setTitle] = useState(db.selectedSong.title);
   const [Artwork, setSelectedImage] = useState({});
-  const [audioFileName, setAudioFileName] = useState('');
-  const [audioFileDuration, setAudioFileDuration] = useState('')
-  const [audioFile, setAudioFile] = useState('')
+  const [audioFileName, setAudioFileName] = useState("");
+  const [audioFileDuration, setAudioFileDuration] = useState("");
+  const [audioFile, setAudioFile] = useState("");
 
   const openImage = async () => {
     let { type, uri } = await DocumentPicker.getDocumentAsync({
@@ -56,18 +56,15 @@ const EditView = ({ params }) => {
     setSelectedImage({ localURI: db.selectedSong.artwork });
   }, [db.selectedSong]);
 
-
   const handlePicker = async () => {
-    let result = await DocumentPicker.getDocumentAsync({ type: 'audio/*' });
+    let result = await DocumentPicker.getDocumentAsync({ type: "audio/*" });
     setAudioFile(result.uri);
     setAudioFileName(result.name);
     const playbackObj = new Audio.Sound();
-    const status = await playbackObj.loadAsync(
-      { uri: result.uri },
-    );
-    setAudioFileDuration(status.durationMillis)
+    const status = await playbackObj.loadAsync({ uri: result.uri });
+    setAudioFileDuration(status.durationMillis);
     await playbackObj.unloadAsync();
-  }
+  };
   const handleUpdate = async () => {
     try {
       console.log(Artwork.localURI);
@@ -154,16 +151,18 @@ const EditView = ({ params }) => {
           <TextInput
             editable={false}
             placeholder="new file name"
-            style={[styles.input,{width:300}]}
+            style={[styles.input, { width: 300 }]}
             value={audioFileName}
-          //onChangeText={(val) => setQuantity(val)}
+            //onChangeText={(val) => setQuantity(val)}
           />
           <TextInput
             editable={false}
             placeholder="new duration"
-            style={[styles.input, { marginVertical: 20, width:300 }]}
-            value={audioFileDuration?(convertTime(audioFileDuration)).toString():""}
-          //onChangeText={(val) => setQuantity(val)}
+            style={[styles.input, { marginVertical: 20, width: 300 }]}
+            value={
+              audioFileDuration ? convertTime(audioFileDuration).toString() : ""
+            }
+            //onChangeText={(val) => setQuantity(val)}
           />
         </View>
         <View

@@ -10,6 +10,8 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   Image,
+  Modal,
+  Pressable,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import color from "../misc/color";
@@ -17,11 +19,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCollection, updateSongState } from "../actions/songActions";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import mainApi from "../api/mainApi";
 const AdminList = ({ params }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [deleteId, setDeleteId] = useState();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const db = useSelector((store) => store.audio);
-  const [data, setData] = useState([]);
+  //const [data, setData] = useState([]);
   useEffect(() => {
     dispatch(fetchCollection());
     //setData(db.songs);
@@ -30,8 +35,45 @@ const AdminList = ({ params }) => {
     dispatch(updateSongState({ selectedSong: song }));
     navigation.navigate("Edit");
   };
+  const handleDeleteSong = async (id) => {
+    try {
+      //console.log(id);
+      let payload = {
+        id: id,
+      };
+      //console.log(payload);
+      await mainApi.deleteSong(payload);
+      dispatch(fetchCollection());
+      setModalVisible(false);
+      navigation.navigate("Admin");
+    } catch (error) {
+      return console.log(error);
+    }
+  };
+  const deleteSong = async (payload) => {};
   return (
     <View style={{ backgroundColor: color.APP_BG, height: "100%" }}>
+      <Modal animationType="slide" visible={modalVisible} transparent={true}>
+        <View style={styles.modalContainer}>
+          <Text style={styles.modalText}>Confirm delete</Text>
+          <View style={styles.btnContainer}>
+            <TouchableOpacity
+              style={styles.btnConfirm}
+              onPress={() => {
+                handleDeleteSong(deleteId);
+              }}
+            >
+              <Text style={styles.modalText}>Confirm</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnCancel}
+              onPress={() => setModalVisible(false)}
+            >
+              <Text style={styles.modalText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
       <FlatList
         showsVerticalScrollIndicator={false}
         data={db.songs}
@@ -73,6 +115,14 @@ const AdminList = ({ params }) => {
                         >
                           <AntDesign name="edit" size={24} color="white" />
                         </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => {
+                            setDeleteId(item.id);
+                            setModalVisible(true);
+                          }}
+                        >
+                          <AntDesign name="delete" size={24} color="white" />
+                        </TouchableOpacity>
                       </View>
                     </View>
                   </View>
@@ -90,6 +140,37 @@ const AdminList = ({ params }) => {
 export default AdminList;
 const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
+  modalContainer: {
+    marginTop: 200,
+    width: "100%",
+    height: 200,
+    backgroundColor: "white",
+    padding: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalText: {
+    color: "black",
+  },
+  btnConfirm: {
+    alignItems: "center",
+    backgroundColor: "green",
+    width: 80,
+  },
+  btnCancel: {
+    backgroundColor: "red",
+    width: 80,
+
+    alignItems: "center",
+  },
+  btnContainer: {
+    width: "50%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 20,
+  },
+
   container: {
     flex: 1,
     backgroundColor: "#13103B",
