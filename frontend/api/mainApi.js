@@ -21,9 +21,11 @@ const mainApi = {
     console.log(url);
     return axios.post(url, payload);
   },
-  deleteSong: () => {
+  deleteSong: (payload) => {
     const url = mainUrl + "/deleteSong";
-    return axios.delete(`${url}?id=${payload}`);
+    //console.log(`${url}?id=${payload.id}`);
+    return axios.delete(`${url}?id=${payload.id}`);
+    // return axios.delete(url, payload.id);
   },
 };
 export default mainApi;
