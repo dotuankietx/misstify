@@ -35,15 +35,6 @@ const NavigationTab = () => {
         }}
       />
       <Tab.Screen
-        name="Test"
-        component={Test}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="library-music" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
         name="PostMusic"
         component={ImagePicker}
         options={{

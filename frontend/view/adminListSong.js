@@ -50,7 +50,7 @@ const AdminList = ({ params }) => {
       return console.log(error);
     }
   };
-  const deleteSong = async (payload) => {};
+  const deleteSong = async (payload) => { };
   return (
     <View style={{ backgroundColor: color.APP_BG, height: "100%" }}>
       <Modal animationType="slide" visible={modalVisible} transparent={true}>
@@ -109,6 +109,7 @@ const AdminList = ({ params }) => {
                         }}
                       >
                         <TouchableOpacity
+                          style={{ marginRight: 10, marginVertical: 20 }}
                           onPress={() => {
                             handleSelectSong(item);
                           }}
@@ -116,6 +117,7 @@ const AdminList = ({ params }) => {
                           <AntDesign name="edit" size={24} color="white" />
                         </TouchableOpacity>
                         <TouchableOpacity
+                          style={{ marginRight: 10, marginVertical: 20 }}
                           onPress={() => {
                             setDeleteId(item.id);
                             setModalVisible(true);

@@ -8,6 +8,7 @@ import {
   StatusBar,
   FlatList,
   TouchableWithoutFeedback,
+  Image
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -24,7 +25,7 @@ import { useEffect } from "react";
 
 const getThumbnailText = (filename) => filename[0];
 
-const SongList = ({}) => {
+const SongList = ({ }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -135,11 +136,14 @@ const SongList = ({}) => {
                 >
                   <View style={styles.leftContainer}>
                     <View style={styles.thumbnail}>
-                      <Text style={styles.thumbnailText}>
                         {db.cunrentAudioIndex === index
                           ? renderPlayPauseIcon(db.isPlaying)
-                          : getThumbnailText(item.title)}
-                      </Text>
+                          : <Image
+                            source={{ uri: item.artwork }}
+                            style={{ width: 70, height: 70,borderRadius:10 }}
+                          />}
+                      {/* <Text style={styles.thumbnailText}>
+                      </Text> */}
                     </View>
                     <View style={styles.titleContainer}>
                       <Text numberOfLines={1} style={styles.title}>
@@ -160,7 +164,7 @@ const SongList = ({}) => {
                     name="dots-three-vertical"
                     size={24}
                     color={color.FONT_MEDIUM}
-                    style={{ padding: 10 }}
+                    style={{ padding: 5,marginTop:15 }}
                   />
                 </View>
               </View>
@@ -209,6 +213,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignSelf: "center",
     width: width - 80,
+    marginTop: 10
   },
   leftContainer: {
     flexDirection: "row",
@@ -219,24 +224,24 @@ const styles = StyleSheet.create({
     flexBasis: 50,
     height: 50,
     alignItems: "center",
-    justifyContent: "center",
+    // justifyContent: "center",
   },
   thumbnail: {
-    height: 50,
-    flexBasis: 50,
+    height: 70,
+    flexBasis: 70,
     backgroundColor: color.FONT_LIGHT,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 30,
+    borderRadius: 10,
   },
   thumbnailText: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: color.FONT,
+    // fontSize: 22,
+    // fontWeight: "bold",
+    // color: color.FONT,
   },
   titleContainer: {
     width: width - 180,
-    paddingLeft: 10,
+    paddingLeft: 30,
   },
   title: {
     fontSize: 16,
@@ -246,7 +251,7 @@ const styles = StyleSheet.create({
     width: width - 80,
     backgroundColor: "white",
     opacity: 0.3,
-    height: 0.5,
+    height: 1,
     alignSelf: "center",
     marginTop: 10,
   },
