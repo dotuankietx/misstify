@@ -316,7 +316,7 @@ const styles = StyleSheet.create({
     imageWrapper: {
         width: 300,
         height: 340,
-        marginBottom: 25,
+        marginBottom: 20,
     },
     musicImage: {
         width: '100%',
@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
         color: '#EEEEEE',
     },
     songTitle: {
-        fontSize: 18,
+        fontSize: 24,
         fontWeight: '600',
     },
 
